@@ -545,6 +545,225 @@ func TestHybridHTMLFormat(t *testing.T) {
 	}
 }
 
+// Test flexible format support for all emojis with variation selectors
+func TestFlexibleFormatSupport(t *testing.T) {
+	// Test all emojis that have variation selectors
+	testCases := []struct {
+		name            string
+		completeHTML    string
+		baseHTML        string
+		hybridHTML      string
+		completeUnicode string
+		baseUnicode     string
+		expectedEmoji   string
+	}{
+		{
+			name:            "relaxed",
+			completeHTML:    "&#x263a;&#xfe0f;",
+			baseHTML:        "&#x263a;",
+			hybridHTML:      "&#x263a;️",
+			completeUnicode: "\\U0000263A\\uFE0F",
+			baseUnicode:     "\\U0000263A",
+			expectedEmoji:   "☺️",
+		},
+		{
+			name:            "frowning",
+			completeHTML:    "&#x2639;&#xfe0f;",
+			baseHTML:        "&#x2639;",
+			hybridHTML:      "&#x2639;️",
+			completeUnicode: "\\U00002639\\uFE0F",
+			baseUnicode:     "\\U00002639",
+			expectedEmoji:   "☹️",
+		},
+		{
+			name:            "point_up",
+			completeHTML:    "&#x261d;&#xfe0f;",
+			baseHTML:        "&#x261d;",
+			hybridHTML:      "&#x261d;️",
+			completeUnicode: "\\U0000261D\\uFE0F",
+			baseUnicode:     "\\U0000261D",
+			expectedEmoji:   "☝️",
+		},
+		{
+			name:            "peace",
+			completeHTML:    "&#x270c;&#xfe0f;",
+			baseHTML:        "&#x270c;",
+			hybridHTML:      "&#x270c;️",
+			completeUnicode: "\\U0000270C\\uFE0F",
+			baseUnicode:     "\\U0000270C",
+			expectedEmoji:   "✌️",
+		},
+		{
+			name:            "hand_splayed",
+			completeHTML:    "&#x1f590;&#xfe0f;",
+			baseHTML:        "&#x1f590;",
+			hybridHTML:      "&#x1f590;️",
+			completeUnicode: "\\U0001F590\\uFE0F",
+			baseUnicode:     "\\U0001F590",
+			expectedEmoji:   "🖐️",
+		},
+		{
+			name:            "heart",
+			completeHTML:    "&#x2764;&#xfe0f;",
+			baseHTML:        "&#x2764;",
+			hybridHTML:      "&#x2764;️",
+			completeUnicode: "\\U00002764\\uFE0F",
+			baseUnicode:     "\\U00002764",
+			expectedEmoji:   "❤️",
+		},
+		{
+			name:            "sun",
+			completeHTML:    "&#x2600;&#xfe0f;",
+			baseHTML:        "&#x2600;",
+			hybridHTML:      "&#x2600;️",
+			completeUnicode: "\\U00002600\\uFE0F",
+			baseUnicode:     "\\U00002600",
+			expectedEmoji:   "☀️",
+		},
+		{
+			name:            "cloud",
+			completeHTML:    "&#x2601;&#xfe0f;",
+			baseHTML:        "&#x2601;",
+			hybridHTML:      "&#x2601;️",
+			completeUnicode: "\\U00002601\\uFE0F",
+			baseUnicode:     "\\U00002601",
+			expectedEmoji:   "☁️",
+		},
+		{
+			name:            "airplane",
+			completeHTML:    "&#x2708;&#xfe0f;",
+			baseHTML:        "&#x2708;",
+			hybridHTML:      "&#x2708;️",
+			completeUnicode: "\\U00002708\\uFE0F",
+			baseUnicode:     "\\U00002708",
+			expectedEmoji:   "✈️",
+		},
+		{
+			name:            "keyboard",
+			completeHTML:    "&#x2328;&#xfe0f;",
+			baseHTML:        "&#x2328;",
+			hybridHTML:      "&#x2328;️",
+			completeUnicode: "\\U00002328\\uFE0F",
+			baseUnicode:     "\\U00002328",
+			expectedEmoji:   "⌨️",
+		},
+		{
+			name:            "mouse_three_button",
+			completeHTML:    "&#x1f5b1;&#xfe0f;",
+			baseHTML:        "&#x1f5b1;",
+			hybridHTML:      "&#x1f5b1;️",
+			completeUnicode: "\\U0001F5B1\\uFE0F",
+			baseUnicode:     "\\U0001F5B1",
+			expectedEmoji:   "🖱️",
+		},
+		{
+			name:            "studio_microphone",
+			completeHTML:    "&#x1f399;&#xfe0f;",
+			baseHTML:        "&#x1f399;",
+			hybridHTML:      "&#x1f399;️",
+			completeUnicode: "\\U0001F399\\uFE0F",
+			baseUnicode:     "\\U0001F399",
+			expectedEmoji:   "🎙️",
+		},
+		{
+			name:            "desktop_computer",
+			completeHTML:    "&#x1f5a5;&#xfe0f;",
+			baseHTML:        "&#x1f5a5;",
+			hybridHTML:      "&#x1f5a5;️",
+			completeUnicode: "\\U0001F5A5\\uFE0F",
+			baseUnicode:     "\\U0001F5A5",
+			expectedEmoji:   "🖥️",
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			// Test complete formats (should work)
+			result, err := Transform(tc.completeHTML, FormatEmoji)
+			if err != nil {
+				t.Errorf("Transform(%s) failed: %v", tc.completeHTML, err)
+			} else if result != tc.expectedEmoji {
+				t.Errorf("Transform(%s) = %s, expected %s", tc.completeHTML, result, tc.expectedEmoji)
+			}
+
+			result, err = Transform(tc.completeUnicode, FormatEmoji)
+			if err != nil {
+				t.Errorf("Transform(%s) failed: %v", tc.completeUnicode, err)
+			} else if result != tc.expectedEmoji {
+				t.Errorf("Transform(%s) = %s, expected %s", tc.completeUnicode, result, tc.expectedEmoji)
+			}
+
+			// Test base formats (should now work)
+			result, err = Transform(tc.baseHTML, FormatEmoji)
+			if err != nil {
+				t.Errorf("Transform(%s) failed: %v", tc.baseHTML, err)
+			} else if result != tc.expectedEmoji {
+				t.Errorf("Transform(%s) = %s, expected %s", tc.baseHTML, result, tc.expectedEmoji)
+			}
+
+			result, err = Transform(tc.baseUnicode, FormatEmoji)
+			if err != nil {
+				t.Errorf("Transform(%s) failed: %v", tc.baseUnicode, err)
+			} else if result != tc.expectedEmoji {
+				t.Errorf("Transform(%s) = %s, expected %s", tc.baseUnicode, result, tc.expectedEmoji)
+			}
+
+			// Test hybrid format (should now work)
+			result, err = Transform(tc.hybridHTML, FormatEmoji)
+			if err != nil {
+				t.Errorf("Transform(%s) failed: %v", tc.hybridHTML, err)
+			} else if result != tc.expectedEmoji {
+				t.Errorf("Transform(%s) = %s, expected %s", tc.hybridHTML, result, tc.expectedEmoji)
+			}
+
+			// Test IsSupported for all formats
+			if !IsSupported(tc.completeHTML) {
+				t.Errorf("IsSupported(%s) = false, expected true", tc.completeHTML)
+			}
+			if !IsSupported(tc.baseHTML) {
+				t.Errorf("IsSupported(%s) = false, expected true", tc.baseHTML)
+			}
+			if !IsSupported(tc.hybridHTML) {
+				t.Errorf("IsSupported(%s) = false, expected true", tc.hybridHTML)
+			}
+			if !IsSupported(tc.completeUnicode) {
+				t.Errorf("IsSupported(%s) = false, expected true", tc.completeUnicode)
+			}
+			if !IsSupported(tc.baseUnicode) {
+				t.Errorf("IsSupported(%s) = false, expected true", tc.baseUnicode)
+			}
+		})
+	}
+}
+
+// Test backward compatibility - ensure all existing functionality still works
+func TestBackwardCompatibility(t *testing.T) {
+	// Test that all formats still work for emojis without variation selectors
+	simpleTests := []struct {
+		name     string
+		input    string
+		expected string
+	}{
+		{"smile by name", "smile", "😄"},
+		{"smile by emoji", "😄", "😄"},
+		{"smile by shortcode", ":smile:", "😄"},
+		{"smile by html", "&#x1f604;", "😄"},
+		{"smile by unicode", "\\U0001F604", "😄"},
+	}
+
+	for _, tt := range simpleTests {
+		t.Run(tt.name, func(t *testing.T) {
+			result, err := Transform(tt.input, FormatEmoji)
+			if err != nil {
+				t.Errorf("Transform(%s) failed: %v", tt.input, err)
+			}
+			if result != tt.expected {
+				t.Errorf("Transform(%s) = %s, expected %s", tt.input, result, tt.expected)
+			}
+		})
+	}
+}
+
 // Benchmark tests for performance
 func BenchmarkTransform(b *testing.B) {
 	for i := 0; i < b.N; i++ {
@@ -568,5 +787,23 @@ func BenchmarkGetEmojiInfo(b *testing.B) {
 func BenchmarkIsSupported(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		_ = IsSupported("smile")
+	}
+}
+
+func BenchmarkTransformBaseHTML(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_, _ = Transform("&#x1f399;", FormatEmoji)
+	}
+}
+
+func BenchmarkTransformHybridHTML(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_, _ = Transform("&#x1f399;️", FormatEmoji)
+	}
+}
+
+func BenchmarkTransformBaseUnicode(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_, _ = Transform("\\U0001F399", FormatEmoji)
 	}
 }

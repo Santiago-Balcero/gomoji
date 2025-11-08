@@ -195,6 +195,52 @@ For a complete list of supported emojis, use:
 emojis := gomoji.GetSupportedEmojis()
 ```
 
+## Flexible Format Support
+
+Gomoji automatically supports **multiple format variations** for emojis with variation selectors, making it extremely flexible for real-world usage:
+
+### Supported Format Variations
+
+For emojis that have variation selectors (like 🎙️, ⌨️, 🖥️), Gomoji recognizes these formats:
+
+```go
+// All these inputs work for the studio microphone emoji:
+emoji1, _ := gomoji.Transform("&#x1f399;&#xfe0f;", gomoji.FormatEmoji) // Complete HTML: 🎙️
+emoji2, _ := gomoji.Transform("&#x1f399;", gomoji.FormatEmoji)         // Base HTML: 🎙️  
+emoji3, _ := gomoji.Transform("&#x1f399;️", gomoji.FormatEmoji)        // Hybrid HTML: 🎙️
+emoji4, _ := gomoji.Transform("\\U0001F399\\uFE0F", gomoji.FormatEmoji) // Complete Unicode: 🎙️
+emoji5, _ := gomoji.Transform("\\U0001F399", gomoji.FormatEmoji)        // Base Unicode: 🎙️
+
+// All return: 🎙️
+```
+
+### Why This Matters
+
+- **Web scraping**: Handle emojis copied from different websites with varying formats
+- **User input**: Accept emojis pasted from various sources (browsers, documents, etc.)
+- **API integrations**: Work seamlessly with different systems that use different emoji encodings
+- **Backward compatibility**: All existing code continues to work while gaining new flexibility
+
+### Real-World Example
+
+```go
+// These mixed inputs all work correctly:
+inputs := []string{
+    "&#x2328;",      // Keyboard (base HTML)
+    "&#x1f5b1;️",    // Mouse (hybrid HTML) 
+    "\\U0001F399",   // Studio mic (base Unicode)
+    "🖥️",           // Desktop computer (actual emoji)
+}
+
+for _, input := range inputs {
+    if gomoji.IsSupported(input) {
+        emoji, _ := gomoji.Transform(input, gomoji.FormatEmoji)
+        shortcode, _ := gomoji.Transform(input, gomoji.FormatShortcode)
+        fmt.Printf("%s -> %s -> %s\n", input, emoji, shortcode)
+    }
+}
+```
+
 ## Examples
 
 ### Basic Usage
@@ -298,10 +344,13 @@ Gomoji is designed for high performance with optimized reverse mappings and effi
 
 ```go
 // Benchmark results (215 emojis, MacBook Pro M4 Pro)
-BenchmarkTransform-14           62508409    20.18 ns/op       0 B/op   0 allocs/op
-BenchmarkTransformText-14           3096   379756 ns/op    5717 B/op  72 allocs/op
-BenchmarkGetEmojiInfo-14        29677870    38.33 ns/op      64 B/op   1 allocs/op
-BenchmarkIsSupported-14        100000000    10.50 ns/op       0 B/op   0 allocs/op
+BenchmarkTransform-14                   58742662    20.83 ns/op       0 B/op   0 allocs/op
+BenchmarkTransformText-14                   3160   372098 ns/op    5683 B/op  72 allocs/op
+BenchmarkGetEmojiInfo-14                30463682    37.76 ns/op      64 B/op   1 allocs/op
+BenchmarkIsSupported-14                100000000    10.72 ns/op       0 B/op   0 allocs/op
+BenchmarkTransformBaseHTML-14           20315640    62.12 ns/op       0 B/op   0 allocs/op
+BenchmarkTransformHybridHTML-14         17585305    68.13 ns/op       0 B/op   0 allocs/op
+BenchmarkTransformBaseUnicode-14        16274421    75.47 ns/op       0 B/op   0 allocs/op
 ```
 
 ### Understanding the Metrics
@@ -313,10 +362,13 @@ BenchmarkIsSupported-14        100000000    10.50 ns/op       0 B/op   0 allocs/
 - **allocs/op**: Memory allocations per operation - zero allocations = no garbage collection overhead
 
 **Performance Analysis:**
-- **`Transform()`**: ~20ns per conversion - extremely fast single emoji transformations with zero memory allocations
-- **`IsSupported()`**: ~10ns per check - lightning-fast emoji validation, perfect for hot paths
+- **`Transform()`**: ~21ns per conversion - extremely fast single emoji transformations with zero memory allocations
+- **`IsSupported()`**: ~11ns per check - lightning-fast emoji validation, perfect for hot paths
 - **`GetEmojiInfo()`**: ~38ns per lookup - fast metadata retrieval with minimal memory usage (64 bytes)
-- **`TransformText()`**: ~380μs for text with multiple emojis - efficient bulk processing with reasonable memory usage
+- **`TransformText()`**: ~372μs for text with multiple emojis - efficient bulk processing with reasonable memory usage
+- **Base HTML Format**: ~62ns - fast recognition of HTML base entities (e.g., `&#x1f399;`)
+- **Hybrid HTML Format**: ~68ns - efficient handling of mixed formats (e.g., `&#x1f399;️`)
+- **Base Unicode Format**: ~75ns - quick processing of Unicode base codes (e.g., `\\U0001F399`)
 
 **Why it's fast:**
 - Pre-built reverse mapping tables for O(1) lookups
