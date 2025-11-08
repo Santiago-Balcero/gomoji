@@ -32,10 +32,13 @@
 package gomoji
 
 import (
+	"context"
 	"fmt"
-	"log"
 	"regexp"
 	"strings"
+
+	"github.com/Santiago-Balcero/gobserve"
+	"go.uber.org/zap"
 )
 
 // Format represents the different emoji format types.
@@ -122,7 +125,7 @@ func Transform(input string, targetFormat Format) (string, error) {
 //	text := "Hello 😄 :wink: &#x1f44d; world!"
 //	result, err := TransformText(text, FormatShortcode)
 //	// result: "Hello :smile: :wink: :thumbs_up: world!"
-func TransformText(text string, targetFormat Format) string {
+func TransformText(ctx context.Context, text string, targetFormat Format) string {
 	result := text
 
 	// Transform actual emojis
@@ -130,7 +133,10 @@ func TransformText(text string, targetFormat Format) string {
 		if strings.Contains(result, emoji) {
 			transformed, err := Transform(name, targetFormat)
 			if err != nil {
-				log.Printf("transformation for emoji %q with name %q failed: %v", emoji, name, err)
+				gobserve.AddLogFields(
+					ctx,
+					zap.Error(fmt.Errorf("transformation for emoji %q with name %q failed: %w", emoji, name, err)),
+				)
 				continue // Skip if transformation fails
 			}
 			result = strings.ReplaceAll(result, emoji, transformed)
@@ -143,7 +149,10 @@ func TransformText(text string, targetFormat Format) string {
 		if name, exists := shortcodeToName[match]; exists {
 			transformed, err := Transform(name, targetFormat)
 			if err != nil {
-				log.Printf("transformation for shortcode %q with name %q failed: %v", match, name, err)
+				gobserve.AddLogFields(
+					ctx,
+					zap.Error(fmt.Errorf("transformation for shortcode %q with name %q failed: %w", match, name, err)),
+				)
 				return match // Return original if transformation fails
 			}
 			return transformed
@@ -157,7 +166,10 @@ func TransformText(text string, targetFormat Format) string {
 		if name, exists := htmlToName[match]; exists {
 			transformed, err := Transform(name, targetFormat)
 			if err != nil {
-				log.Printf("transformation for HTML %q with name %q failed: %v", match, name, err)
+				gobserve.AddLogFields(
+					ctx,
+					zap.Error(fmt.Errorf("transformation for HTML %q with name %q failed: %w", match, name, err)),
+				)
 				return match
 			}
 			return transformed

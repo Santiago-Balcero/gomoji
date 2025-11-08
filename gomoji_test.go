@@ -1,6 +1,9 @@
 package gomoji
 
-import "testing"
+import (
+	"context"
+	"testing"
+)
 
 func TestTransform(t *testing.T) {
 	tests := []struct {
@@ -205,7 +208,7 @@ func TestTransformText(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := TransformText(tt.input, tt.targetFormat)
+			result := TransformText(context.Background(), tt.input, tt.targetFormat)
 			if result != tt.expected {
 				t.Errorf("expected %q, got %q", tt.expected, result)
 			}
@@ -469,7 +472,7 @@ func TestTransformTextWithNewEmojis(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := TransformText(tt.input, tt.format)
+			result := TransformText(context.Background(), tt.input, tt.format)
 			if result != tt.expected {
 				t.Errorf("TransformText(%s, %v) = %s, expected %s", tt.input, tt.format, result, tt.expected)
 			}
@@ -754,7 +757,7 @@ func BenchmarkTransform(b *testing.B) {
 func BenchmarkTransformText(b *testing.B) {
 	text := "Hello 😊 I love 🌈 and ✨ content! 🔥"
 	for i := 0; i < b.N; i++ {
-		_ = TransformText(text, FormatShortcode)
+		_ = TransformText(context.Background(), text, FormatShortcode)
 	}
 }
 
