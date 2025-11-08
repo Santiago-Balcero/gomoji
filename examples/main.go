@@ -75,29 +75,17 @@ func textProcessing() {
 	text := "Hello 😊 I'm :heart: coding! &#x1f525;"
 
 	// Convert everything to shortcodes
-	shortcodes, err := gomoji.TransformText(text, gomoji.FormatShortcode)
-	if err != nil {
-		log.Printf("Error: %v", err)
-		return
-	}
+	shortcodes := gomoji.TransformText(text, gomoji.FormatShortcode)
 	fmt.Printf("   Original: %s\n", text)
 	fmt.Printf("   Shortcodes: %s\n", shortcodes)
 
 	// Convert everything to emojis
-	emojis, err := gomoji.TransformText(shortcodes, gomoji.FormatEmoji)
-	if err != nil {
-		log.Printf("Error: %v", err)
-		return
-	}
+	emojis := gomoji.TransformText(shortcodes, gomoji.FormatEmoji)
 	fmt.Printf("   Back to emojis: %s\n", emojis)
 
 	// Real-world example: processing user messages
 	userMessage := "Great work! 👍 The project is on 🔥! Keep it up! ⭐"
-	processed, err := gomoji.TransformText(userMessage, gomoji.FormatShortcode)
-	if err != nil {
-		log.Printf("Error: %v", err)
-		return
-	}
+	processed := gomoji.TransformText(userMessage, gomoji.FormatShortcode)
 	fmt.Printf("   User message: %s\n", userMessage)
 	fmt.Printf("   For storage: %s\n", processed)
 }
@@ -152,20 +140,12 @@ func webDevelopment() {
 	// Scenario 1: Converting emojis for safe HTML rendering
 	content := "Welcome to our site! 😊 We hope you enjoy your stay! ⭐"
 
-	htmlSafe, err := gomoji.TransformText(content, gomoji.FormatHTML)
-	if err != nil {
-		log.Printf("Error: %v", err)
-		return
-	}
+	htmlSafe := gomoji.TransformText(content, gomoji.FormatHTML)
 	fmt.Printf("   Original: %s\n", content)
 	fmt.Printf("   HTML-safe: %s\n", htmlSafe)
 
 	// Scenario 2: Converting emojis for Markdown
-	markdown, err := gomoji.TransformText(content, gomoji.FormatShortcode)
-	if err != nil {
-		log.Printf("Error: %v", err)
-		return
-	}
+	markdown := gomoji.TransformText(content, gomoji.FormatShortcode)
 	fmt.Printf("   Markdown: %s\n", markdown)
 
 	// Scenario 3: Database storage and retrieval
@@ -173,11 +153,11 @@ func webDevelopment() {
 	userPost := "Just deployed my app! 🚀 So excited! 🎉"
 
 	// Store as shortcodes
-	forStorage, _ := gomoji.TransformText(userPost, gomoji.FormatShortcode)
+	forStorage := gomoji.TransformText(userPost, gomoji.FormatShortcode)
 	fmt.Printf("   Store in DB: %s\n", forStorage)
 
 	// Retrieve and display
-	forDisplay, _ := gomoji.TransformText(forStorage, gomoji.FormatEmoji)
+	forDisplay := gomoji.TransformText(forStorage, gomoji.FormatEmoji)
 	fmt.Printf("   Display to user: %s\n", forDisplay)
 }
 

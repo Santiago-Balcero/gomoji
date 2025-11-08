@@ -33,6 +33,7 @@ package gomoji
 
 import (
 	"fmt"
+	"log"
 	"regexp"
 	"strings"
 )
@@ -121,7 +122,7 @@ func Transform(input string, targetFormat Format) (string, error) {
 //	text := "Hello 😄 :wink: &#x1f44d; world!"
 //	result, err := TransformText(text, FormatShortcode)
 //	// result: "Hello :smile: :wink: :thumbs_up: world!"
-func TransformText(text string, targetFormat Format) (string, error) {
+func TransformText(text string, targetFormat Format) string {
 	result := text
 
 	// Transform actual emojis
@@ -129,6 +130,7 @@ func TransformText(text string, targetFormat Format) (string, error) {
 		if strings.Contains(result, emoji) {
 			transformed, err := Transform(name, targetFormat)
 			if err != nil {
+				log.Printf("transformation for emoji %q with name %q failed: %v", emoji, name, err)
 				continue // Skip if transformation fails
 			}
 			result = strings.ReplaceAll(result, emoji, transformed)
@@ -141,6 +143,7 @@ func TransformText(text string, targetFormat Format) (string, error) {
 		if name, exists := shortcodeToName[match]; exists {
 			transformed, err := Transform(name, targetFormat)
 			if err != nil {
+				log.Printf("transformation for shortcode %q with name %q failed: %v", match, name, err)
 				return match // Return original if transformation fails
 			}
 			return transformed
@@ -154,6 +157,7 @@ func TransformText(text string, targetFormat Format) (string, error) {
 		if name, exists := htmlToName[match]; exists {
 			transformed, err := Transform(name, targetFormat)
 			if err != nil {
+				log.Printf("transformation for HTML %q with name %q failed: %v", match, name, err)
 				return match
 			}
 			return transformed
@@ -161,7 +165,7 @@ func TransformText(text string, targetFormat Format) (string, error) {
 		return match
 	})
 
-	return result, nil
+	return result
 }
 
 // GetSupportedEmojis returns a list of all supported emoji names.

@@ -170,60 +170,44 @@ func TestTransformText(t *testing.T) {
 		input        string
 		targetFormat Format
 		expected     string
-		shouldError  bool
 	}{
 		{
 			name:         "transform emojis to shortcodes",
 			input:        "Hello 😊 I love 🌈 and ✨!",
 			targetFormat: FormatShortcode,
 			expected:     "Hello :blush: I love :rainbow: and :sparkles:!",
-			shouldError:  false,
 		},
 		{
 			name:         "transform shortcodes to emojis",
 			input:        "Hello :blush: I love :rainbow: and :sparkles:!",
 			targetFormat: FormatEmoji,
 			expected:     "Hello 😊 I love 🌈 and ✨!",
-			shouldError:  false,
 		},
 		{
 			name:         "transform mixed formats",
 			input:        "🎤 Today we have :sparkles: and &#x1f308;",
 			targetFormat: FormatEmoji,
 			expected:     "🎤 Today we have ✨ and 🌈",
-			shouldError:  false,
 		},
 		{
 			name:         "transform to html",
 			input:        "Check out this 🔥 content!",
 			targetFormat: FormatHTML,
 			expected:     "Check out this &#x1f525; content!",
-			shouldError:  false,
 		},
 		{
 			name:         "no emojis in text",
 			input:        "This is just plain text",
 			targetFormat: FormatEmoji,
 			expected:     "This is just plain text",
-			shouldError:  false,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result, err := TransformText(tt.input, tt.targetFormat)
-
-			if tt.shouldError {
-				if err == nil {
-					t.Errorf("expected error but got none")
-				}
-			} else {
-				if err != nil {
-					t.Errorf("unexpected error: %v", err)
-				}
-				if result != tt.expected {
-					t.Errorf("expected %q, got %q", tt.expected, result)
-				}
+			result := TransformText(tt.input, tt.targetFormat)
+			if result != tt.expected {
+				t.Errorf("expected %q, got %q", tt.expected, result)
 			}
 		})
 	}
@@ -485,11 +469,7 @@ func TestTransformTextWithNewEmojis(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result, err := TransformText(tt.input, tt.format)
-			if err != nil {
-				t.Errorf("TransformText(%s, %v) returned error: %v", tt.input, tt.format, err)
-				return
-			}
+			result := TransformText(tt.input, tt.format)
 			if result != tt.expected {
 				t.Errorf("TransformText(%s, %v) = %s, expected %s", tt.input, tt.format, result, tt.expected)
 			}
@@ -774,7 +754,7 @@ func BenchmarkTransform(b *testing.B) {
 func BenchmarkTransformText(b *testing.B) {
 	text := "Hello 😊 I love 🌈 and ✨ content! 🔥"
 	for i := 0; i < b.N; i++ {
-		_, _ = TransformText(text, FormatShortcode)
+		_ = TransformText(text, FormatShortcode)
 	}
 }
 
