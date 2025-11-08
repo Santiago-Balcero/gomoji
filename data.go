@@ -517,6 +517,58 @@ var emojiMappings = map[string]Mapping{
 		HTML:      "&#x1f64f;",
 		Unicode:   "\\U0001F64F",
 	},
+	"raised_hand": {
+		Emoji:     "✋",
+		Shortcode: ":raised_hand:",
+		HTML:      "&#x270b;",
+		Unicode:   "\\U0000270B",
+	},
+	"hand_splayed": {
+		Emoji:     "🖐️",
+		Shortcode: ":hand_splayed:",
+		HTML:      "&#x1f590;&#xfe0f;",
+		Unicode:   "\\U0001F590\\uFE0F",
+	},
+	"vulcan": {
+		Emoji:     "🖖",
+		Shortcode: ":vulcan:",
+		HTML:      "&#x1f596;",
+		Unicode:   "\\U0001F596",
+	},
+	"love_you_gesture": {
+		Emoji:     "🤟",
+		Shortcode: ":love_you_gesture:",
+		HTML:      "&#x1f91f;",
+		Unicode:   "\\U0001F91F",
+	},
+	"pinching_hand": {
+		Emoji:     "🤏",
+		Shortcode: ":pinching_hand:",
+		HTML:      "&#x1f90f;",
+		Unicode:   "\\U0001F90F",
+	},
+	"pinched_fingers": {
+		Emoji:     "🤌",
+		Shortcode: ":pinched_fingers:",
+		HTML:      "&#x1f90c;",
+		Unicode:   "\\U0001F90C",
+	},
+
+	// === PEOPLE ===
+	"woman_teacher": {
+		Emoji:     "👩🏽‍🏫",
+		Shortcode: ":woman_teacher:",
+		HTML:      "&#x1f469;&#x1f3fd;&#x200d;&#x1f3eb;",
+		Unicode:   "\\U0001F469\\U0001F3FD\\u200D\\U0001F3EB",
+	},
+
+	// === PEOPLE ===
+	"eyes": {
+		Emoji:     "👀",
+		Shortcode: ":eyes:",
+		HTML:      "&#x1f440;",
+		Unicode:   "\\U0001F440",
+	},
 
 	// === HEARTS ===
 	"heart": {
@@ -629,6 +681,12 @@ var emojiMappings = map[string]Mapping{
 		HTML:      "&#x1f48e;",
 		Unicode:   "\\U0001F48E",
 	},
+	"bomb": {
+		Emoji:     "💣",
+		Shortcode: ":bomb:",
+		HTML:      "&#x1f4a3;",
+		Unicode:   "\\U0001F4A3",
+	},
 
 	// === NATURE ===
 	"sunflower": {
@@ -673,6 +731,42 @@ var emojiMappings = map[string]Mapping{
 		HTML:      "&#x2600;&#xfe0f;",
 		Unicode:   "\\U00002600\\uFE0F",
 	},
+	"sun_with_face": {
+		Emoji:     "🌞",
+		Shortcode: ":sun_with_face:",
+		HTML:      "&#x1f31e;",
+		Unicode:   "\\U0001F31E",
+	},
+	"sunrise": {
+		Emoji:     "🌅",
+		Shortcode: ":sunrise:",
+		HTML:      "&#x1f305;",
+		Unicode:   "\\U0001F305",
+	},
+	"sunrise_over_mountains": {
+		Emoji:     "🌄",
+		Shortcode: ":sunrise_over_mountains:",
+		HTML:      "&#x1f304;",
+		Unicode:   "\\U0001F304",
+	},
+	"moon": {
+		Emoji:     "🌙",
+		Shortcode: ":moon:",
+		HTML:      "&#x1f319;",
+		Unicode:   "\\U0001F319",
+	},
+	"full_moon": {
+		Emoji:     "🌕",
+		Shortcode: ":full_moon:",
+		HTML:      "&#x1f315;",
+		Unicode:   "\\U0001F315",
+	},
+	"new_moon": {
+		Emoji:     "🌑",
+		Shortcode: ":new_moon:",
+		HTML:      "&#x1f311;",
+		Unicode:   "\\U0001F311",
+	},
 	"partly_sunny": {
 		Emoji:     "⛅",
 		Shortcode: ":partly_sunny:",
@@ -708,6 +802,108 @@ var emojiMappings = map[string]Mapping{
 		Shortcode: ":rainbow:",
 		HTML:      "&#x1f308;",
 		Unicode:   "\\U0001F308",
+	},
+
+	// === EARTH & GEOGRAPHY ===
+	"earth_africa": {
+		Emoji:     "🌍",
+		Shortcode: ":earth_africa:",
+		HTML:      "&#x1f30d;",
+		Unicode:   "\\U0001F30D",
+	},
+	"earth_americas": {
+		Emoji:     "🌎",
+		Shortcode: ":earth_americas:",
+		HTML:      "&#x1f30e;",
+		Unicode:   "\\U0001F30E",
+	},
+	"earth_asia": {
+		Emoji:     "🌏",
+		Shortcode: ":earth_asia:",
+		HTML:      "&#x1f30f;",
+		Unicode:   "\\U0001F30F",
+	},
+	"desert_island": {
+		Emoji:     "🏝️",
+		Shortcode: ":desert_island:",
+		HTML:      "&#x1f3dd;&#xfe0f;",
+		Unicode:   "\\U0001F3DD\\uFE0F",
+	},
+	"classical_building": {
+		Emoji:     "🏛️",
+		Shortcode: ":classical_building:",
+		HTML:      "&#x1f3db;&#xfe0f;",
+		Unicode:   "\\U0001F3DB\\uFE0F",
+	},
+
+	// === WATER & WAVES ===
+	"ocean": {
+		Emoji:     "🌊",
+		Shortcode: ":ocean:",
+		HTML:      "&#x1f30a;",
+		Unicode:   "\\U0001F30A",
+	},
+	"droplet": {
+		Emoji:     "💧",
+		Shortcode: ":droplet:",
+		HTML:      "&#x1f4a7;",
+		Unicode:   "\\U0001F4A7",
+	},
+	"sweat_drops": {
+		Emoji:     "💦",
+		Shortcode: ":sweat_drops:",
+		HTML:      "&#x1f4a6;",
+		Unicode:   "\\U0001F4A6",
+	},
+
+	// === PLANTS & TREES ===
+	"seedling": {
+		Emoji:     "🌱",
+		Shortcode: ":seedling:",
+		HTML:      "&#x1f331;",
+		Unicode:   "\\U0001F331",
+	},
+	"herb": {
+		Emoji:     "🌿",
+		Shortcode: ":herb:",
+		HTML:      "&#x1f33f;",
+		Unicode:   "\\U0001F33F",
+	},
+	"four_leaf_clover": {
+		Emoji:     "🍀",
+		Shortcode: ":four_leaf_clover:",
+		HTML:      "&#x1f340;",
+		Unicode:   "\\U0001F340",
+	},
+	"leaves": {
+		Emoji:     "🍃",
+		Shortcode: ":leaves:",
+		HTML:      "&#x1f343;",
+		Unicode:   "\\U0001F343",
+	},
+	"evergreen_tree": {
+		Emoji:     "🌲",
+		Shortcode: ":evergreen_tree:",
+		HTML:      "&#x1f332;",
+		Unicode:   "\\U0001F332",
+	},
+	"deciduous_tree": {
+		Emoji:     "🌳",
+		Shortcode: ":deciduous_tree:",
+		HTML:      "&#x1f333;",
+		Unicode:   "\\U0001F333",
+	},
+	"palm_tree": {
+		Emoji:     "🌴",
+		Shortcode: ":palm_tree:",
+		HTML:      "&#x1f334;",
+		Unicode:   "\\U0001F334",
+	},
+	"cactus": {
+		Emoji:     "🌵",
+		Shortcode: ":cactus:",
+		HTML:      "&#x1f335;",
+		Unicode:   "\\U0001F335",
 	},
 
 	// === FOOD ===
@@ -921,14 +1117,38 @@ var emojiMappings = map[string]Mapping{
 		HTML:      "&#x1f6a2;",
 		Unicode:   "\\U0001F6A2",
 	},
-	"bike": {
+	"bicycle": {
 		Emoji:     "🚲",
-		Shortcode: ":bike:",
+		Shortcode: ":bicycle:",
 		HTML:      "&#x1f6b2;",
 		Unicode:   "\\U0001F6B2",
 	},
+	"scooter": {
+		Emoji:     "🛵",
+		Shortcode: ":scooter:",
+		HTML:      "&#x1f6f5;",
+		Unicode:   "\\U0001F6F5",
+	},
+	"motorcycle": {
+		Emoji:     "🏍️",
+		Shortcode: ":motorcycle:",
+		HTML:      "&#x1f3cd;&#xfe0f;",
+		Unicode:   "\\U0001F3CD\\uFE0F",
+	},
+	"racing_car": {
+		Emoji:     "🏎️",
+		Shortcode: ":racing_car:",
+		HTML:      "&#x1f3ce;&#xfe0f;",
+		Unicode:   "\\U0001F3CE\\uFE0F",
+	},
 
 	// === OBJECTS ===
+	"calendar": {
+		Emoji:     "📅",
+		Shortcode: ":calendar:",
+		HTML:      "&#x1f4c5;",
+		Unicode:   "\\U0001F4C5",
+	},
 	"phone": {
 		Emoji:     "📱",
 		Shortcode: ":phone:",
@@ -940,6 +1160,18 @@ var emojiMappings = map[string]Mapping{
 		Shortcode: ":computer:",
 		HTML:      "&#x1f4bb;",
 		Unicode:   "\\U0001F4BB",
+	},
+	"desktop_computer": {
+		Emoji:     "🖥️",
+		Shortcode: ":desktop_computer:",
+		HTML:      "&#x1f5a5;&#xfe0f;",
+		Unicode:   "\\U0001F5A5\\uFE0F",
+	},
+	"floppy_disk": {
+		Emoji:     "💾",
+		Shortcode: ":floppy_disk:",
+		HTML:      "&#x1f4be;",
+		Unicode:   "\\U0001F4BE",
 	},
 	"keyboard": {
 		Emoji:     "⌨️",
@@ -958,6 +1190,12 @@ var emojiMappings = map[string]Mapping{
 		Shortcode: ":camera:",
 		HTML:      "&#x1f4f7;",
 		Unicode:   "\\U0001F4F7",
+	},
+	"camera_flash": {
+		Emoji:     "📸",
+		Shortcode: ":camera_flash:",
+		HTML:      "&#x1f4f8;",
+		Unicode:   "\\U0001F4F8",
 	},
 	"tv": {
 		Emoji:     "📺",
@@ -982,6 +1220,18 @@ var emojiMappings = map[string]Mapping{
 		Shortcode: ":microphone:",
 		HTML:      "&#x1f3a4;",
 		Unicode:   "\\U0001F3A4",
+	},
+	"studio_microphone": {
+		Emoji:     "🎙️",
+		Shortcode: ":studio_microphone:",
+		HTML:      "&#x1f399;&#xfe0f;",
+		Unicode:   "\\U0001F399\\uFE0F",
+	},
+	"chair": {
+		Emoji:     "🪑",
+		Shortcode: ":chair:",
+		HTML:      "&#x1fa91;",
+		Unicode:   "\\U0001FA91",
 	},
 	"musical_note": {
 		Emoji:     "🎵",
@@ -1014,13 +1264,17 @@ var emojiMappings = map[string]Mapping{
 		Unicode:   "\\U0001F3B7",
 	},
 
-	// === FLAGS (a few common ones) ===
+	// === FLAGS BY CONTINENT ===
+
+	// === NORTH AMERICA ===
 	"flag_us": {
 		Emoji:     "🇺🇸",
 		Shortcode: ":flag_us:",
 		HTML:      "&#x1f1fa;&#x1f1f8;",
 		Unicode:   "\\U0001F1FA\\U0001F1F8",
 	},
+
+	// === EUROPE ===
 	"flag_gb": {
 		Emoji:     "🇬🇧",
 		Shortcode: ":flag_gb:",
@@ -1033,12 +1287,26 @@ var emojiMappings = map[string]Mapping{
 		HTML:      "&#x1f1eb;&#x1f1f7;",
 		Unicode:   "\\U0001F1EB\\U0001F1F7",
 	},
+	"flag_it": {
+		Emoji:     "🇮🇹",
+		Shortcode: ":flag_it:",
+		HTML:      "&#x1f1ee;&#x1f1f9;",
+		Unicode:   "\\U0001F1EE\\U0001F1F9",
+	},
 	"flag_de": {
 		Emoji:     "🇩🇪",
 		Shortcode: ":flag_de:",
 		HTML:      "&#x1f1e9;&#x1f1ea;",
 		Unicode:   "\\U0001F1E9\\U0001F1EA",
 	},
+	"flag_es": {
+		Emoji:     "🇪🇦",
+		Shortcode: ":flag_es:",
+		HTML:      "&#x1f1ea;&#x1f1f8;",
+		Unicode:   "\\U0001F1EA\\U0001F1F8",
+	},
+
+	// === ASIA ===
 	"flag_jp": {
 		Emoji:     "🇯🇵",
 		Shortcode: ":flag_jp:",
@@ -1050,5 +1318,31 @@ var emojiMappings = map[string]Mapping{
 		Shortcode: ":flag_cn:",
 		HTML:      "&#x1f1e8;&#x1f1f3;",
 		Unicode:   "\\U0001F1E8\\U0001F1F3",
+	},
+
+	// === SOUTH AMERICA ===
+	"flag_co": {
+		Emoji:     "🇨🇴",
+		Shortcode: ":flag_co:",
+		HTML:      "&#x1f1e8;&#x1f1f4;",
+		Unicode:   "\\U0001F1E8\\U0001F1F4",
+	},
+	"flag_ar": {
+		Emoji:     "🇦🇷",
+		Shortcode: ":flag_ar:",
+		HTML:      "&#x1f1e6;&#x1f1f7;",
+		Unicode:   "\\U0001F1E6\\U0001F1F7",
+	},
+	"flag_mx": {
+		Emoji:     "🇲🇽",
+		Shortcode: ":flag_mx:",
+		HTML:      "&#x1f1f2;&#x1f1fd;",
+		Unicode:   "\\U0001F1F2\\U0001F1FD",
+	},
+	"flag_br": {
+		Emoji:     "🇧🇷",
+		Shortcode: ":flag_br:",
+		HTML:      "&#x1f1e7;&#x1f1f7;",
+		Unicode:   "\\U0001F1E7\\U0001F1F7",
 	},
 }

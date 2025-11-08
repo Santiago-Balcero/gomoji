@@ -11,7 +11,7 @@ A powerful and easy-to-use Go package for converting between different emoji for
 - **Multiple Format Support**: Convert between emoji unicode, shortcodes, HTML entities, and unicode escape sequences
 - **Individual & Bulk Processing**: Transform single emojis or entire text containing multiple emojis
 - **Fast Performance**: Optimized reverse mappings for quick lookups
-- **Comprehensive Database**: Support for hundreds of commonly used emojis
+- **Comprehensive Database**: Support for 215+ commonly used emojis organized by category
 - **Type Safety**: Strongly typed API with custom format types
 - **Zero Dependencies**: Pure Go implementation with no external dependencies
 - **Full Test Coverage**: Extensively tested with benchmarks
@@ -161,31 +161,34 @@ fmt.Println(gomoji.IsSupported("invalid"))      // false
 
 ## Supported Emojis
 
-Gomoji includes support for 200+ commonly used emojis across various categories:
+Gomoji includes support for 215+ commonly used emojis organized across various categories:
 
 ### 😊 Faces & Emotions
 `smile`, `joy`, `heart_eyes`, `wink`, `blush`, `thinking`, `cry`, `angry`, `scream`, etc.
 
 ### 🐶 Animals & Nature
-`dog`, `cat`, `bear`, `lion_face`, `frog`, `sunflower`, `rose`, `sun`, `rainbow`, etc.
+`dog`, `cat`, `bear`, `lion_face`, `frog`, `sunflower`, `rose`, `sun`, `fire`, `moon`, `star2`, `droplet`, `ocean`, `earth_africa`, `earth_americas`, `earth_asia`, `desert_island`, `classical_building`, `seedling`, `evergreen_tree`, `rainbow`, etc.
 
 ### 👍 People & Body
-`thumbs_up`, `clap`, `wave`, `pray`, `point_up`, `ok_hand`, `peace`, `fist`, etc.
+`thumbs_up`, `clap`, `wave`, `pray`, `point_up`, `ok_hand`, `peace`, `fist`, `woman_teacher`, `raised_hand`, `vulcan`, etc.
 
 ### ❤️ Hearts & Symbols
-`heart`, `yellow_heart`, `broken_heart`, `star`, `fire`, `sparkles`, `zap`, `gem`, etc.
+`heart`, `yellow_heart`, `broken_heart`, `star`, `sparkles`, `zap`, `gem`, `bomb`, etc.
 
 ### 🍕 Food & Drink
 `pizza`, `hamburger`, `apple`, `coffee`, `beer`, `wine_glass`, `cake`, etc.
 
 ### 🚗 Travel & Transportation
-`car`, `airplane`, `rocket`, `ship`, `bike`, `train`, etc.
+`car`, `airplane`, `rocket`, `ship`, `bicycle`, `scooter`, `motorcycle`, `racing_car`, `train`, etc.
 
 ### 💻 Objects & Technology
-`computer`, `phone`, `camera`, `headphones`, `microphone`, `guitar`, etc.
+`calendar`, `computer`, `desktop_computer`, `floppy_disk`, `phone`, `camera`, `camera_flash`, `headphones`, `microphone`, `studio_microphone`, `chair`, `eyes`, `guitar`, etc.
 
-### 🇺🇸 Flags
-`flag_us`, `flag_gb`, `flag_fr`, `flag_de`, `flag_jp`, `flag_cn`, etc.
+### 🇺🇸 Flags (Organized by Continent)
+**North America**: `flag_us`
+**Europe**: `flag_gb`, `flag_fr`, `flag_it`, `flag_de`, `flag_es`
+**Asia**: `flag_jp`, `flag_cn`
+**South America**: `flag_co`, `flag_ar`, `flag_mx`, `flag_br`
 
 For a complete list of supported emojis, use:
 ```go
@@ -291,16 +294,36 @@ func main() {
 
 ## Performance
 
-Gomoji is designed for high performance with optimized reverse mappings:
+Gomoji is designed for high performance with optimized reverse mappings and efficient lookups:
 
 ```go
-// Benchmark results (example)
-BenchmarkTransform-8           5000000    250 ns/op
-BenchmarkTransformText-8       1000000   1500 ns/op
-BenchmarkIsSupported-8        10000000    120 ns/op
+// Benchmark results (215 emojis, MacBook Pro M4 Pro)
+BenchmarkTransform-14           62508409    20.18 ns/op       0 B/op   0 allocs/op
+BenchmarkTransformText-14           3096   379756 ns/op    5717 B/op  72 allocs/op
+BenchmarkGetEmojiInfo-14        29677870    38.33 ns/op      64 B/op   1 allocs/op
+BenchmarkIsSupported-14        100000000    10.50 ns/op       0 B/op   0 allocs/op
 ```
 
-Run benchmarks:
+### Understanding the Metrics
+
+**What these numbers mean:**
+- **Operations/sec**: Higher is better - shows how many times the function can run per second
+- **ns/op**: Nanoseconds per operation - lower is better (1 second = 1 billion nanoseconds)
+- **B/op**: Bytes allocated per operation - lower is better for memory efficiency
+- **allocs/op**: Memory allocations per operation - zero allocations = no garbage collection overhead
+
+**Performance Analysis:**
+- **`Transform()`**: ~20ns per conversion - extremely fast single emoji transformations with zero memory allocations
+- **`IsSupported()`**: ~10ns per check - lightning-fast emoji validation, perfect for hot paths
+- **`GetEmojiInfo()`**: ~38ns per lookup - fast metadata retrieval with minimal memory usage (64 bytes)
+- **`TransformText()`**: ~380μs for text with multiple emojis - efficient bulk processing with reasonable memory usage
+
+**Why it's fast:**
+- Pre-built reverse mapping tables for O(1) lookups
+- Zero memory allocations for basic operations
+- Optimized string processing for bulk text transformation
+
+Run benchmarks yourself:
 ```bash
 go test -bench=.
 ```

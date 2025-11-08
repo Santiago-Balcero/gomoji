@@ -371,6 +371,132 @@ func TestIsSupported(t *testing.T) {
 	}
 }
 
+// Test newly added emojis
+func TestNewlyAddedEmojis(t *testing.T) {
+	tests := []struct {
+		name     string
+		input    string
+		expected string
+	}{
+		// Transportation
+		{"bicycle", "bicycle", "🚲"},
+		{"scooter", "scooter", "🛵"},
+		{"motorcycle", "motorcycle", "🏍️"},
+		{"racing_car", "racing_car", "🏎️"},
+
+		// Technology & Objects
+		{"floppy_disk", "floppy_disk", "💾"},
+		{"desktop_computer", "desktop_computer", "🖥️"},
+		{"camera_flash", "camera_flash", "📸"},
+		{"calendar", "calendar", "📅"},
+
+		// Nature - Celestial
+		{"sun", "sun", "☀️"},
+		{"fire", "fire", "🔥"},
+		{"moon", "moon", "🌙"},
+		{"star2", "star2", "🌟"},
+
+		// Nature - Water & Earth
+		{"droplet", "droplet", "💧"},
+		{"ocean", "ocean", "🌊"},
+		{"earth_africa", "earth_africa", "🌍"},
+		{"earth_americas", "earth_americas", "🌎"},
+		{"earth_asia", "earth_asia", "🌏"},
+		{"desert_island", "desert_island", "🏝️"},
+
+		// Buildings & Places
+		{"classical_building", "classical_building", "🏛️"},
+
+		// Symbols
+		{"bomb", "bomb", "💣"},
+
+		// Flags by Continent
+		{"flag_it", "flag_it", "🇮🇹"},
+		{"flag_fr", "flag_fr", "🇫🇷"},
+		{"flag_us", "flag_us", "🇺🇸"},
+		{"flag_co", "flag_co", "🇨🇴"},
+		{"flag_ar", "flag_ar", "🇦🇷"},
+		{"flag_mx", "flag_mx", "🇲🇽"},
+		{"flag_br", "flag_br", "🇧🇷"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result, err := Transform(tt.input, FormatEmoji)
+			if err != nil {
+				t.Errorf("Transform(%s) returned error: %v", tt.input, err)
+				return
+			}
+			if result != tt.expected {
+				t.Errorf("Transform(%s) = %s, expected %s", tt.input, result, tt.expected)
+			}
+
+			// Test that all new emojis are supported
+			if !IsSupported(tt.input) {
+				t.Errorf("IsSupported(%s) = false, expected true", tt.input)
+			}
+
+			// Test GetEmojiInfo works for all new emojis
+			info, err := GetEmojiInfo(tt.input)
+			if err != nil {
+				t.Errorf("GetEmojiInfo(%s) returned error: %v", tt.input, err)
+				return
+			}
+			if info.Emoji != tt.expected {
+				t.Errorf("GetEmojiInfo(%s).Emoji = %s, expected %s", tt.input, info.Emoji, tt.expected)
+			}
+		})
+	}
+}
+
+// Test text transformation with multiple new emojis
+func TestTransformTextWithNewEmojis(t *testing.T) {
+	tests := []struct {
+		name     string
+		input    string
+		format   Format
+		expected string
+	}{
+		{
+			name:     "transportation emojis",
+			input:    "I love riding my 🚲 and driving my 🏎️!",
+			format:   FormatShortcode,
+			expected: "I love riding my :bicycle: and driving my :racing_car:!",
+		},
+		{
+			name:     "nature emojis",
+			input:    "The ☀️ is shining and the 🌊 are beautiful!",
+			format:   FormatShortcode,
+			expected: "The :sun: is shining and the :ocean: are beautiful!",
+		},
+		{
+			name:     "technology emojis",
+			input:    "Working on my 🖥️ and 💻 with a 📸 nearby.",
+			format:   FormatShortcode,
+			expected: "Working on my :desktop_computer: and :computer: with a :camera_flash: nearby.",
+		},
+		{
+			name:     "flags emojis",
+			input:    "Visiting 🇮🇹 and 🇫🇷 this summer!",
+			format:   FormatShortcode,
+			expected: "Visiting :flag_it: and :flag_fr: this summer!",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result, err := TransformText(tt.input, tt.format)
+			if err != nil {
+				t.Errorf("TransformText(%s, %v) returned error: %v", tt.input, tt.format, err)
+				return
+			}
+			if result != tt.expected {
+				t.Errorf("TransformText(%s, %v) = %s, expected %s", tt.input, tt.format, result, tt.expected)
+			}
+		})
+	}
+}
+
 // Benchmark tests for performance
 func BenchmarkTransform(b *testing.B) {
 	for i := 0; i < b.N; i++ {
