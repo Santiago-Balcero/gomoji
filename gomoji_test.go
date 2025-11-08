@@ -497,6 +497,54 @@ func TestTransformTextWithNewEmojis(t *testing.T) {
 	}
 }
 
+// Test hybrid HTML format handling
+func TestHybridHTMLFormat(t *testing.T) {
+	tests := []struct {
+		name     string
+		input    string
+		expected string
+	}{
+		{
+			name:     "studio microphone hybrid HTML",
+			input:    "&#x1f399;️", // HTML entity + actual variation selector emoji
+			expected: "🎙️",
+		},
+		{
+			name:     "keyboard hybrid HTML",
+			input:    "&#x2328;️", // HTML entity + actual variation selector emoji
+			expected: "⌨️",
+		},
+		{
+			name:     "mouse hybrid HTML",
+			input:    "&#x1f5b1;️", // HTML entity + actual variation selector emoji
+			expected: "🖱️",
+		},
+		{
+			name:     "desktop computer hybrid HTML",
+			input:    "&#x1f5a5;️", // HTML entity + actual variation selector emoji
+			expected: "🖥️",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result, err := Transform(tt.input, FormatEmoji)
+			if err != nil {
+				t.Errorf("Transform(%s) returned error: %v", tt.input, err)
+				return
+			}
+			if result != tt.expected {
+				t.Errorf("Transform(%s) = %s, expected %s", tt.input, result, tt.expected)
+			}
+
+			// Also test that it's properly supported
+			if !IsSupported(tt.input) {
+				t.Errorf("IsSupported(%s) = false, expected true", tt.input)
+			}
+		})
+	}
+}
+
 // Benchmark tests for performance
 func BenchmarkTransform(b *testing.B) {
 	for i := 0; i < b.N; i++ {

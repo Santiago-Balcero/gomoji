@@ -221,6 +221,15 @@ func findEmojiName(input string) string {
 		return name
 	}
 
+	// Handle hybrid HTML format: &#x1f399;️ (HTML entity + actual variation selector emoji)
+	// Convert trailing variation selector emoji (️) to HTML entity (&#xfe0f;)
+	if strings.Contains(input, "&#x") && strings.HasSuffix(input, "️") {
+		normalizedInput := strings.Replace(input, "️", "&#xfe0f;", 1)
+		if name, exists := htmlToName[normalizedInput]; exists {
+			return name
+		}
+	}
+
 	// Check if it's Unicode escaped
 	if name, exists := unicodeToName[input]; exists {
 		return name
